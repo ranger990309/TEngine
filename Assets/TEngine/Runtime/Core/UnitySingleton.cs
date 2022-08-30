@@ -17,6 +17,15 @@ namespace TEngine
             {
                 if (_instance == null)
                 {
+                    var ins = UnityEngine.Object.FindObjectOfType<T>();
+                    if (ins != null)
+                    {
+                        ins.gameObject.name = typeof(T).Name;
+                        _instance = ins;
+                        SingletonMgr.Retain(ins.gameObject);
+                        return Instance;
+                    }
+
                     System.Type thisType = typeof(T);
                     string instName = thisType.Name;
                     GameObject go = SingletonMgr.GetGameObject(instName);
@@ -28,16 +37,12 @@ namespace TEngine
                             go = new GameObject(instName);
                             go.transform.position = Vector3.zero;
                         }
-                        SingletonMgr.Retain(go);
                     }
 
-                    if (go != null)
+                    _instance = go.GetComponent<T>();
+                    if (_instance == null)
                     {
-                        _instance = go.GetComponent<T>();
-                        if (_instance == null)
-                        {
-                            _instance = go.AddComponent<T>();
-                        }
+                        _instance = go.AddComponent<T>();
                     }
 
                     if (_instance == null)

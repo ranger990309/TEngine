@@ -4,7 +4,7 @@ using TEngine;
 using UI;
 using UnityEngine;
 
-public class TEngineTest : TEngine.TEngine
+public class TEngineTest : TEngineEntry
 {
     /// <summary>
     /// 注册系统
@@ -17,22 +17,16 @@ public class TEngineTest : TEngine.TEngine
         AddLogicSys(UISys.Instance);
     }
 
-    protected override void StartGame()
+    protected override void OnLoad()
     {
-        StartCoroutine(Run());
-    }
-
-    IEnumerator Run()
-    {
-        yield return new WaitForSeconds(2.0f);
-
+        base.OnLoad();
+        
         ObjMgr.Instance.Active();
 
         UISys.Mgr.ShowWindow<TEngineUI>(true);
 
         UISys.Mgr.ShowWindow<MsgUI>(true);
     }
-
 }
 
 public class ObjMgr : TSingleton<ObjMgr>
