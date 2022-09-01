@@ -21,8 +21,6 @@ enum ActionCode
     GetPlayers = 1004;      //获取玩家列表
     JoinRoom = 1005;           //加入房间
     ExitRoom = 1006;           //离开房间
-    StartGame = 1007;          //开始游戏
-    StartGameFromSvr = 1008;//服务端发送来的开始游戏指令
     Chat = 2000;               //聊天
 }
 
@@ -76,35 +74,12 @@ message RoomPack
 
 message PlayerPack
 {
-    string playername = 1;//玩家名称
+    string playerName = 1;//玩家名称
     string playerID = 2;//玩家ID
     int32 hp = 3;//玩家血量
     PosPack posPack = 4;//位置信息
-    int32 playerJob = 5;//玩家职业
 }
 
-message GameStatePack
-{
-    GAMESTATE state = 1;
-    int32 BossId  =2;
-}
-
-enum CardType
-{
-    NONE = 0;
-    CLUB = 1;   //草花
-    DIAMOND = 2;//方块
-    HEART =3;  //红心
-    SPADE =4;  //黑桃
-    JOKER =5;  //
-}
-
-message CardData
-{
-    int32 cardInt = 1;
-    int32 cardValue = 2;
-    CardType cardType = 3;
-}
 
 message PosPack
 {
@@ -117,7 +92,7 @@ message PosPack
     float RotaZ = 6;
 
     int32 Animation = 8; 
-    int32 Dirr = 9;
+    int32 Direction = 9;
 
     float MoveX = 10;
     float MoveY = 11;
