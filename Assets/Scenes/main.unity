@@ -357,5 +357,15 @@ PrefabInstance:
       propertyPath: m_AvailableProcedureTypeNames.Array.size
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3463045026377943191, guid: 161ff7c8132079c4a95e2e4e70ddd41b,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[6]
+      value: TEngine.Runtime.ProcedureSplash
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463045026377943191, guid: 161ff7c8132079c4a95e2e4e70ddd41b,
+        type: 3}
+      propertyPath: m_AvailableProcedureTypeNames.Array.data[7]
+      value: TEngine.Runtime.ProcedureStartGame
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 161ff7c8132079c4a95e2e4e70ddd41b, type: 3}
