@@ -2,33 +2,63 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// APP更新类型。
+/// </summary>
 public enum UpdateType
 {
     None = 0,
-    //底包更新
-    PackageUpdate = 1, 
     //资源更新
-    ResourceUpdate = 2,
+    ResourceUpdate = 1,
+    //底包更新
+    PackageUpdate = 2, 
 }
 
+/// <summary>
+/// 强制更新类型。
+/// </summary>
 public enum UpdateStyle
 {
     None = 0,
-    Froce = 1,   //强制
-    Optional = 2,//非强制
+    Force = 1,      //强制(不更新无法进入游戏。)
+    Optional = 2,   //非强制(不更新可以进入游戏。)
 }
 
+/// <summary>
+/// 是否提示更新。
+/// </summary>
 public enum UpdateNotice
 {
     None = 0,
-    Notice = 1,   //提示
-    NoNotice = 2,//非提示
+    Notice = 1,     //提示
+    NoNotice = 2,   //非提示
 }
     
 public enum GameStatus
 {
     First = 0,
     AssetLoad = 1
+}
+
+/// <summary>
+/// 版本更新数据。
+/// </summary>
+public class UpdateData
+{
+    /// <summary>
+    /// 是否底包更新。
+    /// </summary>
+    public UpdateType UpdateType;    
+    
+    /// <summary>
+    /// 是否强制更新。
+    /// </summary>
+    public UpdateStyle UpdateStyle;
+    
+    /// <summary>
+    /// 是否提示。
+    /// </summary>
+    public UpdateNotice UpdateNotice;
 }
 
 /// <summary>
@@ -161,16 +191,19 @@ public class FrameworkGlobalSettings
 
     public string HostServerURL = "http://127.0.0.1:8081";
     
+    public string FallbackHostServerURL = "http://127.0.0.1:8081";
+    
     public string ResourceVersionFileName
     {
         get { return m_ResourceVersionFileName; }
     }
 
-    public string CheckVersionUrl = "http://127.0.0.1/Resources/{0}Version.txt";
-    public string WindowsAppUrl = "http://127.0.0.1";
-    public string MacOSAppUrl = "http://127.0.0.1";
-    public string IOSAppUrl = "http://127.0.0.1";
-    public string AndroidAppUrl = "http://127.0.0.1";
+    public bool EnableUpdateData = false;
+    
+    public string WindowsUpdateDataUrl = "http://127.0.0.1";
+    public string MacOSUpdateDataUrl = "http://127.0.0.1";
+    public string IOSUpdateDataUrl = "http://127.0.0.1";
+    public string AndroidUpdateDataUrl = "http://127.0.0.1";
     [Header("Server")] [SerializeField] private string m_CurUseServerChannel;
 
     public string CurUseServerChannel

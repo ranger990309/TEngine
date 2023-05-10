@@ -38,18 +38,22 @@ public static class SettingsUtils
         HybridCLRCustomGlobalSettings.AOTMetaAssemblies = aOTMetaAssemblies;
     }
 
+    public static bool EnableUpdateData()
+    {
+        return FrameworkGlobalSettings.EnableUpdateData;
+    }
 
-    public static string GetAppUpdateUrl()
+    public static string GetUpdateDataUrl()
     {
         string url = null;
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        url = FrameworkGlobalSettings.WindowsAppUrl;
+        url = FrameworkGlobalSettings.WindowsUpdateDataUrl;
 #elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            url = FrameworkGlobalSettings.MacOSAppUrl;
+            url = FrameworkGlobalSettings.MacOSUpdateDataUrl;
 #elif UNITY_IOS
-            url = FrameworkGlobalSettings.IOSAppUrl;
+            url = FrameworkGlobalSettings.IOSUpdateDataUrl;
 #elif UNITY_ANDROID
-            url = FrameworkGlobalSettings.AndroidAppUrl;
+            url = FrameworkGlobalSettings.AndroidUpdateDataUrl;
 #endif
         return url;
     }
