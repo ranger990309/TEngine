@@ -18,6 +18,8 @@ namespace GameLogic
 
         public bool IsEnterLevel = true;
 
+        public bool IsMoving = false;
+
         protected override void OnInit()
         {
             Log.Debug("SubSystem InputSystem OnInit");
@@ -41,6 +43,7 @@ namespace GameLogic
             ctrlActor.Entity.Event.SendEvent(BattleEvent.StopMove);
             ctrlActor.Event.SendEvent(BattleEvent.StopMove);
             GameEvent.Send(BattleEvent.StopMove);
+            IsMoving = false;
         }
 
         public override void OnUpdate()
@@ -115,6 +118,7 @@ namespace GameLogic
             if (!ret)
             {
                 GameEvent.Send(BattleEvent.StopMove, false);
+                IsMoving = false;
                 return;
             }
 
@@ -134,6 +138,7 @@ namespace GameLogic
             GameEvent.Send(BattleEvent.StartMove, true, moveDir);
             ctrlActor.Entity.Event.SendEvent(BattleEvent.StartMove, moveDir);
             ctrlActor.Event.SendEvent(BattleEvent.StartMove, moveDir);
+            IsMoving = true;
         }
 
         #endregion
@@ -164,7 +169,7 @@ namespace GameLogic
         /// </summary>
         private void TestInputAttack()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !IsMoving)
             {
                 GameEvent.Send(BattleEvent.InputSkill, (uint)1001);
             }
