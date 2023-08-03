@@ -42,18 +42,10 @@ namespace GameLogic.BattleDemo
 
         private ActorEventDispatcher _event;
 
-        public ActorEventDispatcher Event
-        {
-            get
-            {
-                if (_event == null)
-                {
-                    _event = MemoryPool.Acquire<ActorEventDispatcher>();
-                }
-
-                return _event;
-            }
-        }
+        public ActorEventDispatcher Event => _event ??= MemoryPool.Acquire<ActorEventDispatcher>();
+        
+        private ActorEventDispatcher _visualEvent;
+        public ActorEventDispatcher VisualEvent => _visualEvent ??= MemoryPool.Acquire<ActorEventDispatcher>();
 
         #endregion
 

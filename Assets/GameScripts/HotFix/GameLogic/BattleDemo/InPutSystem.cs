@@ -6,12 +6,12 @@ namespace GameLogic
     [Update]
     public class InPutSystem : SubSystem
     {
-        private IUICtrlMove m_moveCtrlUI = null;
+        private IUIBattleCtrl _mCtrlIuiBattle = null;
 
-        public IUICtrlMove MoveCtrlUI
+        public IUIBattleCtrl CtrlIuiBattle
         {
-            get => m_moveCtrlUI;
-            set => m_moveCtrlUI = value;
+            get => _mCtrlIuiBattle;
+            set => _mCtrlIuiBattle = value;
         }
 
         public Camera MainCamera { private set; get; }
@@ -22,6 +22,7 @@ namespace GameLogic
         {
             Log.Debug("SubSystem InputSystem OnInit");
             MainCamera = Camera.main;
+            GameEvent.AddEventListener<uint>(BattleEvent.InputSkill, OnInputSkill);
         }
 
         public void OnUIManualStop()
@@ -36,6 +37,7 @@ namespace GameLogic
             {
                 return;
             }
+
             ctrlActor.Entity.Event.SendEvent(BattleEvent.StopMove);
             ctrlActor.Event.SendEvent(BattleEvent.StopMove);
             GameEvent.Send(BattleEvent.StopMove);
@@ -48,8 +50,12 @@ namespace GameLogic
                 TProfiler.BeginSample("UpdateManualMove");
                 UpdateManualMove();
                 TProfiler.EndSample();
+
+                TestInputAttack();
             }
         }
+
+        #region 移动逻辑
 
         private void UpdateManualMove()
         {
@@ -67,9 +73,9 @@ namespace GameLogic
 
         private bool TryGetManualMoveScreenDir(out Vector2 screenDir)
         {
-            if (m_moveCtrlUI != null)
+            if (_mCtrlIuiBattle != null)
             {
-                return m_moveCtrlUI.TryGetMoveDir(out screenDir);
+                return _mCtrlIuiBattle.TryGetMoveDir(out screenDir);
             }
 
             screenDir = Vector2.zero;
@@ -124,9 +130,46 @@ namespace GameLogic
             {
                 return;
             }
+
             GameEvent.Send(BattleEvent.StartMove, true, moveDir);
-            ctrlActor.Entity.Event.SendEvent(BattleEvent.StartMove,moveDir);
-            ctrlActor.Event.SendEvent(BattleEvent.StartMove,moveDir);
+            ctrlActor.Entity.Event.SendEvent(BattleEvent.StartMove, moveDir);
+            ctrlActor.Event.SendEvent(BattleEvent.StartMove, moveDir);
         }
+
+        #endregion
+
+
+        #region 攻击逻辑
+
+        /// <summary>
+        /// 主角事件攻击输入。
+        /// <remarks>如果是多人联机，则可以封装一个RemoteInputComponent根据协议的输入层对实体和表现进行输入。</remarks>
+        /// </summary>
+        /// <param name="skillId">技能Id。</param>
+        private void OnInputSkill(uint skillId)
+        {
+            var ctrlActor = BattleSystem.ActorSystem.GetCurrCtrlActor();
+            if (ctrlActor == null)
+            {
+                return;
+            }
+
+            ctrlActor.Entity.Event.SendEvent(BattleEvent.DoSkill, skillId);
+            ctrlActor.Event.SendEvent(BattleEvent.DoSkill, skillId);
+        }
+
+        /// <summary>
+        /// 测试攻击输入。
+        /// <remarks>这里是偷懒检测输入。</remarks>
+        /// </summary>
+        private void TestInputAttack()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GameEvent.Send(BattleEvent.InputSkill, (uint)1001);
+            }
+        }
+
+        #endregion
     }
 }

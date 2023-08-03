@@ -27,9 +27,25 @@ namespace GameLogic
         /// </summary>
         public static readonly int BreakTouchMove = StringId.StringToHash("BattleEvent.BreakTouchMove");
         
+        /// <summary>
+        /// Actor事件开始移动逻辑。
+        /// </summary>
         public static readonly int StartMove = StringId.StringToHash("BattleEvent.StartMove");
         
+        /// <summary>
+        /// Actor事件停止移动逻辑。
+        /// </summary>
         public static readonly int StopMove = StringId.StringToHash("BattleEvent.StopMove");
         
+        /// <summary>
+        /// 输入层输入执行技能。
+        /// </summary>
+        public static readonly int InputSkill = StringId.StringToHash("BattleEvent.InputSkill");
+        
+        /// <summary>
+        /// Actor事件执行技能。
+        /// <remarks>普攻也可以算作技能。</remarks>
+        /// </summary>
+        public static readonly int DoSkill = StringId.StringToHash("BattleEvent.DoSkill");
     }
 }

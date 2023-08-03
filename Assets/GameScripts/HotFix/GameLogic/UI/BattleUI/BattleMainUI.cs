@@ -6,7 +6,7 @@ namespace GameLogic
     [Window(UILayer.UI)]
     class BattleMainUI : UIWindow
     {
-        private TouchMove m_touchView;
+        private Touch m_touchView;
 
         #region 脚本工具生成的代码
 
@@ -23,7 +23,7 @@ namespace GameLogic
 
         public override void BindMemberProperty()
         {
-            m_touchView = CreateWidget<TouchMove>(m_itemTouch);
+            m_touchView = CreateWidget<Touch>(m_itemTouch);
         }
     }
 }

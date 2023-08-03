@@ -8,7 +8,7 @@ namespace GameLogic
     /// <summary>
     /// 移动摇杆UI组件。
     /// </summary>
-    class TouchMove : UIWidget, IUICtrlMove
+    class Touch : UIWidget, IUIBattleCtrl
     {
         private GameObject m_arrow;
 
@@ -67,13 +67,13 @@ namespace GameLogic
             entry.callback.AddListener(OnPointUp);
             m_touchEventTrigger.triggers.Add(entry);
 
-            BattleSystem.InPutSystem.MoveCtrlUI = this;
+            BattleSystem.InPutSystem.CtrlIuiBattle = this;
         }
 
         public override void OnDestroy()
         {
             m_touchEventTrigger.triggers.Clear();
-            BattleSystem.InPutSystem.MoveCtrlUI = null;
+            BattleSystem.InPutSystem.CtrlIuiBattle = null;
         }
 
         public override void RegisterEvent()
@@ -98,7 +98,7 @@ namespace GameLogic
             return new Vector2(mousePos.x, mousePos.y);
         }
 
-        private bool TryGetTouchByFingerId(int id, out Touch touch)
+        private bool TryGetTouchByFingerId(int id, out UnityEngine.Touch touch)
         {
             for (int i = 0; i < Input.touchCount; i++)
             {
@@ -109,7 +109,7 @@ namespace GameLogic
                 }
             }
 
-            touch = new Touch();
+            touch = new UnityEngine.Touch();
             return false;
         }
 

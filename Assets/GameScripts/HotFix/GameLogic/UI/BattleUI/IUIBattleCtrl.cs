@@ -2,7 +2,7 @@
 
 namespace GameLogic
 {
-    public interface IUICtrlMove
+    public interface IUIBattleCtrl
     {
         bool TryGetMoveDir(out Vector2 dir);
     }

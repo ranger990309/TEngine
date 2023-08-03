@@ -18,6 +18,8 @@ namespace GameLogic.BattleDemo
         private ActorTransformBinder _binder = new ActorTransformBinder();
 
         private Animator _animator;
+
+        private PlayerActor _playerActor;
         
         public override void OnAttach()
         {
@@ -26,10 +28,18 @@ namespace GameLogic.BattleDemo
             // _binder.SetTransPosChgCallBack(OnTransPosChg);
             // _binder.SetTransRotChgCallBack(OnTransRotChg);
 
+            _playerActor = gameObject.GetComponent<PlayerActor>();
+            
             Entity.Event.AddEventListener(EntityVisualEvent.BASE_TRANSFROM_CHANGE, OnEntityTransformChanged, Entity);
             Entity.Event.AddEventListener(EntityVisualEvent.BASE_TRANSFROM_INIT_POS, OnEntityTransformInit, Entity);
-            gameObject.GetComponent<PlayerActor>().Event.AddEventListener<Vector2>(BattleEvent.StartMove,OnStartMove,this);
-            gameObject.GetComponent<PlayerActor>().Event.AddEventListener(BattleEvent.StopMove,OnStopMove,this);
+
+            if (_playerActor != null)
+            {
+                _playerActor.Event.AddEventListener<Vector2>(BattleEvent.StartMove,OnStartMove,this);
+                _playerActor.Event.AddEventListener(BattleEvent.StopMove,OnStopMove,this);
+            }
+            
+            Entity.VisualEvent.AddEventListener<int>(Entity2VisualEvent.DoPlaySkill,DoPlaySkill,Entity);
         }
 
         private void OnDestroy()
@@ -64,14 +74,14 @@ namespace GameLogic.BattleDemo
 
         private void OnEntityTransformChanged()
         {
-            Log.Info("OnEntityTransformChanged" + Entity.transform.position);
+            // Log.Info("OnEntityTransformChanged" + Entity.transform.position);
             
             var currForward = gameObject.transform.forward;
         }
 
         private void OnEntityTransformInit()
         {
-            Log.Info("OnEntityTransformInit" + Entity.transform.position);
+            // Log.Info("OnEntityTransformInit" + Entity.transform.position);
         }
 
         private void Update()
@@ -103,6 +113,15 @@ namespace GameLogic.BattleDemo
                 return;
             }
             _animator.SetBool(AnimatorParamDefine.Moving,false);
+        }
+
+        private void DoPlaySkill(int skillIndex)
+        {
+            if (_animator == null)
+            {
+                return;
+            }
+            _animator.SetInteger(AnimatorParamDefine.SkillIndex,skillIndex);
         }
     }
 }
