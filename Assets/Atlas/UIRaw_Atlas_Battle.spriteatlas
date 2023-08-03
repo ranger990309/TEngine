@@ -51,8 +51,12 @@ SpriteAtlas:
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: a43cb397a444ce44f9becc183ced96ed, type: 3}
+  - {fileID: 21300000, guid: a970fc6ff5c3f2b49820dff03a82bda5, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - zd_img_light
+  - zd_img_rocker
   m_RenderDataMap: {}
   m_Tag: UIRaw_Atlas_Battle
   m_IsVariant: 0

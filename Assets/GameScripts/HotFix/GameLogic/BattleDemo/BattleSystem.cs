@@ -1,4 +1,5 @@
-﻿using TEngine;
+﻿using GameLogic.BattleDemo;
+using TEngine;
 
 namespace GameLogic
 {
@@ -57,6 +58,11 @@ namespace GameLogic
         public override void OnLateUpdate()
         {
             base.OnLateUpdate();
+        }
+        
+        public EntityLogic GetCurrCtrlEntity()
+        {
+            return null;
         }
     }
 }

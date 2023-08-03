@@ -23,8 +23,13 @@ namespace GameLogic
         public static readonly int StartTouchMove = StringId.StringToHash("BattleEvent.StartTouchMove");
         
         /// <summary>
-        /// 停止移动。
+        /// 停止触碰移动。
         /// </summary>
         public static readonly int BreakTouchMove = StringId.StringToHash("BattleEvent.BreakTouchMove");
+        
+        public static readonly int StartMove = StringId.StringToHash("BattleEvent.StartMove");
+        
+        public static readonly int StopMove = StringId.StringToHash("BattleEvent.StopMove");
+        
     }
 }
