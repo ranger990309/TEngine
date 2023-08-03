@@ -8,5 +8,10 @@ namespace GameLogic.BattleDemo
     public abstract class EntityLogicComponent: Entity
     {
         public EntityLogic Owner => (EntityLogic)Parent;
+
+        public virtual void OnAttach()
+        {
+            
+        }
     }
 }

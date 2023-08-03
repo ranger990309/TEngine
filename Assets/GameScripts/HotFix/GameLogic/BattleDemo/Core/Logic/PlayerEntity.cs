@@ -10,9 +10,10 @@
         protected override void OnLogicCreate()
         {
             base.OnLogicCreate();
-            ActorData = AddComponent<ActorData>();
-            BuffComponent = AddComponent<BuffComponent>();
-            SkillCaster = AddComponent<SkillCasterComponent>();
+            ActorData = Attach<ActorData>();
+            BuffComponent = Attach<BuffComponent>();
+            SkillCaster = Attach<SkillCasterComponent>();
+            Attach<MoveComponent>();
         }
     }
 }

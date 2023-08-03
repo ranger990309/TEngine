@@ -20,6 +20,7 @@ namespace GameLogic
 
         protected override void OnInit()
         {
+            Log.Debug("SubSystem InputSystem OnInit");
             MainCamera = Camera.main;
         }
 
@@ -30,12 +31,13 @@ namespace GameLogic
 
         private void StopManualMove()
         {
-            // //if (m_ctrlActor != null)
-            // //{
-            // //    ActorEventHelper.SendCtrlStopMove(m_ctrlActor);
-            // //}
-            // BattleCoreSys.Instance.PlayerAutoBattle(true);
-            // BattleCoreSys.Instance.SetRuntimeInput(false, null, 0);
+            var ctrlActor = BattleSystem.ActorSystem.GetCurrCtrlActor();
+            if (ctrlActor == null)
+            {
+                return;
+            }
+            ctrlActor.Entity.Event.SendEvent(BattleEvent.StopMove);
+            ctrlActor.Event.SendEvent(BattleEvent.StopMove);
             GameEvent.Send(BattleEvent.StopMove);
         }
 
@@ -117,12 +119,14 @@ namespace GameLogic
             moveDir.Set(moveDriftX, moveDriftZ);
             moveDir.Normalize();
 
-            var ctrlActor = BattleSystem.Instance.GetCurrCtrlEntity();
+            var ctrlActor = BattleSystem.ActorSystem.GetCurrCtrlActor();
             if (ctrlActor == null)
             {
                 return;
             }
             GameEvent.Send(BattleEvent.StartMove, true, moveDir);
+            ctrlActor.Entity.Event.SendEvent(BattleEvent.StartMove,moveDir);
+            ctrlActor.Event.SendEvent(BattleEvent.StartMove,moveDir);
         }
     }
 }
