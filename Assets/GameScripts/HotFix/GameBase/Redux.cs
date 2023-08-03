@@ -6,7 +6,7 @@ namespace TEngine
 {
     #region Architecture
 
-    abstract class Architecture<T> : ILogicSys, IArchitecture where T : Architecture<T>, new()
+    public abstract class Architecture<T> : ILogicSys, IArchitecture where T : Architecture<T>, new()
     {
         private bool _init;
 
@@ -393,7 +393,7 @@ namespace TEngine
         void Init();
     }
 
-    abstract class SubSystem : ISystem, ILogicSys
+    public abstract class SubSystem : ISystem, ILogicSys
     {
         private IArchitecture _architecture;
 

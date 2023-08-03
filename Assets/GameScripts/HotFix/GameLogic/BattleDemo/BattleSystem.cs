@@ -5,28 +5,58 @@ namespace GameLogic
     /// <summary>
     /// 战斗控制系统。
     /// </summary>
-    [Update][FixedUpdate][LateUpdate]
-    public class BattleSystem:BehaviourSingleton<BattleSystem>
+    public class BattleSystem:Architecture<BattleSystem>
     {
-        public override void Active()
+        public static CameraSystem CameraSystem { private set; get; } = new CameraSystem();
+        
+        public static InPutSystem InPutSystem { private set; get; } = new InPutSystem();
+        
+        protected override void Init()
+        {
+            Log.Debug("Architecture BattleSystem OnInit");
+            RegisterSubSystem();
+            OnRegisterEvent();
+            GameEvent.Send(BattleEvent.OnShowBattleMainUI);
+        }
+
+        private void RegisterSubSystem()
+        {
+            RegisterSystem(CameraSystem);
+            RegisterSystem(InPutSystem);
+        }
+
+        private void OnRegisterEvent()
+        {
+            GameEvent.AddEventListener(BattleEvent.OnShowBattleMainUI,OnShowBattleMainUI);
+            GameEvent.AddEventListener(BattleEvent.OnCloseBattleMainUI,OnCloseBattleMainUI);
+        }
+
+        #region 战斗事件回调
+
+        private void OnShowBattleMainUI()
         {
             GameModule.UI.ShowUIAsync<BattleMainUI>();
-            base.Active();
         }
 
-        public override void Update()
+        private void OnCloseBattleMainUI()
         {
-            base.Update();
+            GameModule.UI.CloseWindow<BattleMainUI>();
+        }
+        #endregion
+        
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
         }
 
-        public override void FixedUpdate()
+        public override void OnFixedUpdate()
         {
-            base.FixedUpdate();
+            base.OnFixedUpdate();
         }
 
-        public override void LateUpdate()
+        public override void OnLateUpdate()
         {
-            base.LateUpdate();
+            base.OnLateUpdate();
         }
     }
 }

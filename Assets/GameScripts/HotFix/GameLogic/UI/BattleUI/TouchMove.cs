@@ -6,7 +6,7 @@ using TEngine;
 namespace GameLogic
 {
     /// <summary>
-    /// 移动操作相关
+    /// 移动摇杆UI组件。
     /// </summary>
     class TouchMove : UIWidget, IUICtrlMove
     {
@@ -67,20 +67,19 @@ namespace GameLogic
             entry.callback.AddListener(OnPointUp);
             m_touchEventTrigger.triggers.Add(entry);
 
-            // InPutSys.Instance.MoveCtrlUI = this;
+            BattleSystem.InPutSystem.MoveCtrlUI = this;
         }
 
         public override void OnDestroy()
         {
             m_touchEventTrigger.triggers.Clear();
-
-            // InPutSys.Instance.MoveCtrlUI = null;
+            BattleSystem.InPutSystem.MoveCtrlUI = null;
         }
 
         public override void RegisterEvent()
         {
             base.RegisterEvent();
-            // AddUIEvent(IBattleLogic_Event.BreakTouchMove, BreakMove);
+            AddUIEvent(BattleEvent.BreakTouchMove, BreakMove);
         }
 
         public override void OnRefresh()
@@ -167,7 +166,7 @@ namespace GameLogic
                 m_touchMoveBackground.localPosition.z);
             m_moveScreenDir = Vector2.zero;
 
-            // GameEvent.Get<IBattleLogic>().StartTouchMove();
+            GameEvent.Send(BattleEvent.StartTouchMove);
         }
 
         void OnPointUp(BaseEventData param)
@@ -195,7 +194,7 @@ namespace GameLogic
             m_moveTouchCamera = null;
             m_moveTouchFingerId = -1;
 
-            // InPutSys.Instance.OnUIManualStop();
+            BattleSystem.InPutSystem.OnUIManualStop();
             m_arrow.SetActive(false);
         }
 
@@ -274,7 +273,7 @@ namespace GameLogic
                 m_keyControl = keyControls;
                 if (!m_keyControl)
                 {
-                    // InPutSys.Instance.OnUIManualStop();
+                    BattleSystem.InPutSystem.OnUIManualStop();
                 }
             }
 
@@ -285,10 +284,10 @@ namespace GameLogic
         }
 
         /// <summary>
-        /// 获取移动的控制
+        /// 获取移动的控制。
         /// </summary>
-        /// <param name="screenDir"></param>
-        /// <returns></returns>
+        /// <param name="screenDir">移动朝向向量。</param>
+        /// <returns>当前是否移动。</returns>
         public bool TryGetMoveDir(out Vector2 screenDir)
         {
             if (m_moveTouchPress && m_moveScreenDir != Vector2.zero)
